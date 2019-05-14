@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">fuckDingDing</string>
+    <string name="strings_0">一键授权</string>
+    <string name="strings_1">请手动开启钉钉急速打卡\n使用教程av123456789</string>
+    <string name="strings_2">选择打卡时间</string>
+    <string name="strings_3">保存配置</string>
+</resources>
