@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
     long setTime;//单位分钟
 
+    SPUtil spUtil;
+
     /*
      * author    itloser.info
-     * csdn      https://me.csdn.net/qq_38376757
-     * blog      itloser.info
      * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,19 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.button);
         btnSave = findViewById(R.id.btn_save);
         context = this;
+        spUtil = new SPUtil(context);
+
+        if (spUtil.getCheckTime() > 0) {
+            long time = spUtil.getCheckTime();
+            Log.i("之前设定的时间：", spUtil.getCheckTime() + "");
+            StringBuilder builder = new StringBuilder();
+            builder.append("已选择：");
+            builder.append(time / 60);
+            builder.append("点");
+            builder.append(time % 60);
+            builder.append("分");
+            tv.setText(builder);
+        }
 
         View.OnClickListener click = new View.OnClickListener() {
             @Override
@@ -54,12 +67,13 @@ public class MainActivity extends AppCompatActivity {
                                 tv.setText(builder);
                                 //转时间戳
                                 setTime = i * 60 + i1;
+                                Log.i("设定的时间：", setTime + "");
                             }
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                         timePickerDialog.show();
                         break;
                     case R.id.btn_save:
-                        new SPUtil(context).setCheckTime(setTime);
+                        spUtil.setCheckTime(setTime);
                         Intent intentService = new Intent(MainActivity.this, CoreService.class);
                         startService(intentService);
                         break;
@@ -71,4 +85,5 @@ public class MainActivity extends AppCompatActivity {
         btnSave.setOnClickListener(click);
 
     }
+
 }

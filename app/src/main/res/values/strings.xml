@@ -3,5 +3,12 @@
     <string name="strings_0">一键授权</string>
     <string name="strings_1">请手动开启某应用急速打卡功能</string>
     <string name="strings_2">选择打卡时间</string>
-    <string name="strings_3">启动</string>
+    <string name="strings_3">保存并启动</string>
+    <string name="strings_4">一</string>
+    <string name="strings_5">二</string>
+    <string name="strings_6">三</string>
+    <string name="strings_7">四</string>
+    <string name="strings_8">五</string>
+    <string name="strings_9">六</string>
+    <string name="strings_10">七</string>
 </resources>
