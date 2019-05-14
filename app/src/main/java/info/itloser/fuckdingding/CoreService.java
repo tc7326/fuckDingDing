@@ -29,9 +29,9 @@ public class CoreService extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         builder.setContentIntent(contentIntent);
         builder.setSmallIcon(R.drawable.icon);
-        builder.setContentTitle("正在为您的打卡报价护航");
-        builder.setTicker("Foreground Service Start");
-        builder.setContentText("Make this service run in the foreground.");
+        builder.setContentTitle("正在为您保驾护航");
+        builder.setTicker("服务已启动");
+        builder.setContentText("请勿关闭应用程序,github-tc7326");
         Notification notification = builder.build();
         startForeground(1, notification);
 
