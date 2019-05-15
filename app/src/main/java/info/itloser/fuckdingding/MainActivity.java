@@ -1,5 +1,6 @@
 package info.itloser.fuckdingding;
 
+import android.app.ActivityManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
                         timePickerDialog.show();
                         break;
                     case R.id.btn_save:
+                        if (isServiceRunning(context, "info.itloser.fuckdingding.CoreService")) {
+                            Toast.makeText(context, "服务已经启动，请关闭应用重启后再试。", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         spUtil.setCheckTime(setTime);
                         Intent intentService = new Intent(MainActivity.this, CoreService.class);
                         startService(intentService);
@@ -85,5 +93,39 @@ public class MainActivity extends AppCompatActivity {
         btnSave.setOnClickListener(click);
 
     }
+
+    /*
+    * 检测服务是否开启
+    * */
+    public static boolean isServiceRunning(Context ctx, String serviceName) {
+        ActivityManager am = (ActivityManager) ctx
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        assert am != null;
+        List<ActivityManager.RunningServiceInfo> runningServices = am.getRunningServices(100);//获取系统所有正在运行的服务,最多返回100个
+        for (ActivityManager.RunningServiceInfo runningServiceInfo : runningServices) {
+            String className = runningServiceInfo.service.getClassName();//获取服务的名称
+            System.out.println(className);
+            if (className.equals(serviceName)) {// 服务存在
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+     * 杀掉后台进程
+     * */
+    public static void killApps(Context context, String packageName) {
+        try {
+            ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            assert manager != null;
+            manager.killBackgroundProcesses(packageName);
+            System.out.println("TimerV kill background: " + packageName + " successful");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("TimerV kill background: " + packageName + " error!");
+        }
+    }
+
 
 }
